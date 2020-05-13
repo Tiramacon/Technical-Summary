@@ -31,18 +31,55 @@
 - 文档注释
   ```js
   /**
-   * 模块说明
+   * 模块注释
    * @module 模块名
    *
-   * 类说明
+   * 类注释
    * @class 类名
    * @constructor / @static
    * @param {参数类型} 参数名 参数说明
    *
-   * 方法说明
+   * 方法注释
    * @method 方法名
    * @for 所属类名
    * @param {参数类型} 参数名 参数说明
    * @return {返回值类型} 返回值说明
    */
   ```
+
+## 数据类型
+
+数据检测
+
+- typeof
+
+  ```js
+  var val1
+  var val2 = null
+  var val3 = function () {}
+
+  alert(val0) // 报错
+  typeof val0 // "undefined"
+  typeof val1 // "undefined"
+  typeof val2 // "object"
+  typeof val3 // "function"
+  ```
+
+Undefined / Null
+
+- undefined 派生自 null
+  ```js
+  alert(undefined == null) // true
+  ```
+
+Boolean
+
+- 转换为 true
+  - 非零数字
+  - 非空字符串
+  - 非 null 对象
+- 转换为 false
+  - 0 和 NaN
+  - ""空字符串
+  - null
+  - undefined
