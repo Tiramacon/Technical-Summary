@@ -83,3 +83,12 @@ Boolean
   - ""空字符串
   - null
   - undefined
+
+Number
+
+- +0 和 -0 相等
+- 浮点数值计算会产生舍入误差
+  ```js
+  alert(0.1 + 0.2 == 0.3) // false
+  ```
+-
