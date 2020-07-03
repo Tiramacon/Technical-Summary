@@ -138,3 +138,7 @@
 - prettier 安装
 
   `npm install -D prettier`
+
+- eslint 插件安装
+
+  `npm install -D eslint-plugin-prettier`
