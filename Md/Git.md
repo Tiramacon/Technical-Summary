@@ -10,7 +10,7 @@
 
 - 命令生成 ssh
 
-  ```shell
+  ```bash
   $ ssh-keygen -t rsa -C "xxxxxx@yy.com"  #填写个人邮箱
   Generating public/private rsa key pair.
   Enter file in which to save the key (/c/users/usersName/.ssh/id_rsa):  #回车
@@ -31,14 +31,14 @@
 
 - 输入命令检查
 
-  ```shell
+  ```bash
   $ ssh -T git@github.com
   ssh: connect to host github.com port 22: Connection timed out  #报错
   ```
 
 - 报错则检测 ssh key 文件是否存在
 
-  ```shell
+  ```bash
   $ cd ~/.ssh
   $ ls  #查看当前目录文件
   id_rsa id_rsa.pub  #若不存在两个文件则重新配置ssh key
@@ -48,16 +48,16 @@
 
   1. 新建 config 文件
 
-  ```shell
+  ```bash
   $ cd ~/.ssh
   $ vim config
   ```
 
   2. 按 i 键进入输入模式，编辑以下内容：
 
-  ```shell
+  ```bash
   Host github.com
-  User xxxxxx@yyy.com      #个人邮箱
+  User xxxxxx@yyy.com  #个人邮箱
   Hostname ssh.github.com
   PreferredAuthentications publickey
   IdentityFile ~/.ssh/id_rsa
@@ -67,13 +67,13 @@
   3. 按两次 ESC 键退出输入模式，按 :wq 保存并退出
   4. 再次检查 ssh 连接
 
-  ```shell
+  ```bash
   $ ssh -T git@github.com
   Connection reset by ip port 443  #若出现连接重设提示则再次检查
   $ ssh -T git@github.com
-  The authenticity of host '[ssh.github.com]:443 ([192.30.253.122]:443)' can't be established.
+  The authenticity of host '[ssh.github.com]:443 ([192.30.253.122]:443)' can not be established.
   RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.
-  Are you sure you want to continue connecting (yes/no)? yes  #输入yes回车
+  Are you sure you want to continue connecting (yes/no)? yes  #输入yes并回车
   Warning: Permanently added '[ssh.github.com]:443,[192.30.253.122]:443' (RSA) to the list of known hosts.
-  Hi Veal98! You've successfully authenticated, but GitHub does not provide   shell access.  #连接成功
+  Hi Veal98! You are successfully authenticated, but GitHub does not provide   shell access.  #连接成功
   ```
