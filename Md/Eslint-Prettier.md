@@ -66,7 +66,7 @@
   - JSON (eslintrc.json)
   - package.json -> eslintConfig
 
-  ```json
+  ```js
   {
     // 解析器类型
     "parse": "esprima", // espima(默认), babel-eslint, @typescript-eslint/parse
@@ -114,8 +114,9 @@
     // 扩展规则
     "extends": [
       "eslint:recommended", // 官方扩展，"eslint:recommended"/"eslint:all"
-      "plugin:react/recommended", // plugin为插件类扩展
-      "plugin:vue/essential"
+      "plugin:react/recommended", // plugin为插件类扩展，需先npm安装
+      "plugin:vue/essential",
+      "eslint-config-standard" // npm官方包，可省略eslint-config- 开头
     ],
 
     // 插件
@@ -142,3 +143,54 @@
 - eslint 插件安装
 
   `npm install -D eslint-plugin-prettier`
+
+配合 ESLint
+
+- 在.eslintrc.js 文件中配置错误提示
+
+  ```js
+  {
+    "plugins": ["prettier"],
+    "rules": {
+      "prettier/prettier": "error"
+    }
+  }
+  ```
+
+- 修改 webpack 配置调用 ESLint 的 autofix 功能，保存自动修复错误提示的地方
+
+  ```js
+  const path = require('path')
+  module.exports = {
+    module: {
+      rules: [
+        {
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          enforce: 'pre',
+          include: [path.join(__dirname, 'src')],
+          options: {
+            fix: true,
+          },
+        },
+      ],
+    },
+  }
+  ```
+
+- 解决和 ESLint 插件的冲突，安装依赖包并在.eslintrc.js 文件配置
+
+  `npm i -D eslint-config-prettier`
+
+  ```js
+  {
+    extends: [
+      'standard',
+      "prettier",
+    ],
+  }
+
+  {
+    "extends": ["plugin:prettier/recommended"] // 简化上面的写法
+  }
+  ```
