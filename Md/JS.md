@@ -1,5 +1,21 @@
 <h1 align="center">JS</h1>
 
+## \<script\>
+
+概念
+
+- 从上而下顺序解析
+- 后一组 script 标签可使用前一组的内容，反之不行
+- 解析 script 标签内容会阻塞 DOM 加载及渲染
+
+属性
+
+- async：异步加载，只对外部脚本有效，不同异步脚本标签无法保证顺序解析
+- defer：DOM 加载并渲染后执行，只对外部脚本有效
+- src：外部脚本源
+- type：指定脚本内容 MIME 类型，默认 text/javascript
+- charset：设置字符集，少用
+
 ## 语法
 
 标识符
