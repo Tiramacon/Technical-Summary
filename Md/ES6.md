@@ -174,3 +174,231 @@ const
 函数参数使用解构赋值
 
 - 可指定默认值
+
+  ```js
+  let arr = [
+    [1, 3],
+    [5, 7],
+  ].map(([a, b]) => a * b)
+  console.log(arr) // [3, 35]
+
+  let arr = [{ x: 3 }, { y: 9 }].map(({ x = 4 }) => x * 2)
+  console.log(arr) //
+
+  let fn = ({ x, y } = { x: 1, y: 1 }) => {
+    console.log([x, y])
+  }
+  fn({ x: 3 }) // [3, undefined]
+  fn({}) // [undefined, undefined]
+  fn() // [1, 1]
+  ```
+
+解构赋值常见用法
+
+- 交换变量
+
+  ```js
+  let [a, b, c] = ([1, 2, 3][(a, b)] = [b, a])
+  console.log(a, b)[(a, b, c)] = [c, a, b] // 2 1
+  console.log(a, b, c) // 3 2 1
+  ```
+
+- 函数返回多个值
+
+  ```js
+  let fn1 = () => {
+    return [1, 2, 3]
+  }
+  let [a, b, c] = fn1()
+
+  let fn2 = () => {
+    return { x: 5, y: 6 }
+  }
+  let { x, y } = fn2()
+  ```
+
+- 函数参数的传值
+- 提取 JSON 数据结构赋值给多个变量
+- 函数对象参数的默认值
+- 调取模块对象的方法
+
+## Symbol
+
+概述
+
+- 定义：第七种原始数据类型，值具有唯一性
+
+  ```js
+  let sym1 = Symbol()
+  console.log(sym1) // Symbol()
+  console.log(typeof sym1) // "symbol"
+  // 可以显示转换为字符串
+  console.log(String(sym1)) // "Symbol()"
+  // 可以转为布尔值
+  console.log(Boolean(sym1)) // true
+  ```
+
+- 添加描述与 Symbol.prototype.description
+
+  ```js
+  let sym1 = Symbol('test')
+  console.log(sym1) // Symbol(test)
+  console.log(sym1.toString()) // "Symbol(test)"
+  console.log(sym1.description) // "test"
+  ```
+
+用法
+
+- 作为对象属性名
+
+  ```js
+  let name = Symbol()
+  let age = Symbol()
+  let person = {
+    [name]: 'bob',
+  }
+  person[age] = 20
+  ```
+
+## Set
+
+概述
+
+- 定义：一种类似数组的数据结构，成员的值唯一
+
+  ```js
+  const set1 = new Set()
+  console.log(typeof set1) // "object"
+
+  const arr = [1, 2, 2, 3, 3, 4, 5]
+  arr.forEach((item) => {
+    set1.add(item)
+  })
+  console.log(set1) // Set(5) {1, 2, 3, 4, 5}
+  ```
+
+- Set()构造函数传参初始化，参数需有 iterable 接口
+
+  ```js
+  const set1 = new Set([1, 2, 3, 4, 4, 4])
+  console.log(set1) // Set(4) {1, 2, 3, 4}
+
+  const set2 = new Set('hello')
+  console.log(set2) // Set(4) {'h', 'e', 'l', 'o'}
+
+  const set2 = new Set([NaN, NaN, {}, {}])
+  console.log(set2) // Set(3) {NaN, {}, {}}
+  ```
+
+实例属性和方法
+
+- size 属性：返回实例的成员数
+
+  ```js
+  let set1 = new Set([1, 2, 3, 4, 4, 4])
+  console.log(set1.size) // 4
+  ```
+
+- 操作成员方法
+
+  ```js
+  let set1 = new Set([1, 2, 3, 4])
+
+  set1.add(5) // 添加成员
+  console.log([...set1]) // [1, 2, 3, 4, 5]
+
+  set1.delete(2) // 删除成员
+  console.log([...set1]) // [1, 3, 4, 5]
+
+  // 查找成员
+  console.log(set1.has(3)) // true
+  console.log(set1.has(2)) // false
+
+  set1.clear() // 清空成员
+  console.log(set1) // Set(0) {}
+  ```
+
+- 遍历成员方法
+
+  ```js
+  let set1 = new Set([1, 2, 3])
+
+  // keys(), values(), entries() 方法返回遍历器对象
+  // keys()和values() 返回相同
+  console.log(typeof set1.keys()) // "object"
+  console.log(typeof set1.values()) // "object"
+  console.log(typeof set1.entries()) // "object"
+
+  // 使用for...of可遍历返回的遍历器对象
+  for (let item of set1.keys()) {
+    console.log(item)
+  }
+  // 1
+  // 2
+  // 3
+
+  for (let item of set1.entries()) {
+    console.log(item)
+  }
+  // [1, 1]
+  // [2, 2]
+  // [3, 3]
+
+  // 可以使用for...of直接遍历Set数据
+  for (let item of set1) {
+    console.log(item)
+  }
+  // 1
+  // 2
+  // 3
+
+  // forEach()方法遍历
+  set1.forEach((key, value) => {
+    console.log(`${key}:${value}`)
+  })
+  // 1:1
+  // 2:2
+  // 3:3
+  ```
+
+用法
+
+- 数组或字符串去重
+
+  ```js
+  let arr = [1, 2, 2, 3, 4, 4]
+  let arr1 = [...new Set(arr)] // 数组去重
+
+  // Array.from()方法可以将Set数据转换为数组
+  let arr2 = Array.from(new Set(arr)) // 数组去重
+
+  let str = 'hello'
+  let str1 = [...new Set(str)].join('') // 字符串去重
+  ```
+
+- 实现并集，交集，差集
+
+  ```js
+  let set1 = new Set([1, 2, 3])
+  let set2 = new Set([3, 4, 5])
+
+  let setUnion = new Set([...set1, ...set2])
+  console.log([...setUnion]) // [1, 2, 3, 4, 5]
+
+  let setIntersect = new Set([...set1].filter((item) => set2.has(item)))
+  console.log([...setIntersect]) // [3]
+
+  let setDifference = new Set([...set1].filter((item) => !set2.has(item)))
+  console.log([...setDifference]) // [1, 2]
+  ```
+
+## Map
+
+概述
+
+- 定义：一种类似对象的数据结构，键值对的键可以是各种类型的值
+
+  ```js
+  let map1 = new Map()
+  console.log(typeof map1) // "object"
+  ```
