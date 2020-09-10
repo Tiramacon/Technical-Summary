@@ -27,24 +27,31 @@
 注释
 
 - 普通注释
+
   ```js
   // 单行注释
   /*
     多行注释
   */
   ```
+
 - 未完成注释
+
   ```js
   // TODO 待实现或待完善功能
   ```
+
 - 文件注释（全英文）
+
   ```js
   /*!
    * 概要说明 - 版本
    * 项目地址 | 开源协议
    */
   ```
+
 - 文档注释
+
   ```js
   /**
    * 模块注释
@@ -84,8 +91,10 @@
 Undefined / Null
 
 - undefined 派生自 null
+
   ```js
-  alert(undefined == null) // true
+  undefined == null // true
+  undefined === null // false
   ```
 
 Boolean
@@ -103,8 +112,77 @@ Boolean
 Number
 
 - +0 和 -0 相等
-- 浮点数值计算会产生舍入误差
+
   ```js
-  alert(0.1 + 0.2 == 0.3) // false
+  console.log(+0 === -0) // true
   ```
--
+
+- 浮点数值计算会产生舍入误差
+
+  ```js
+  console.log(0.1 + 0.2 == 0.3) // false
+  ```
+
+- NaN 及 isNaN()
+
+  ```js
+  console.log(NaN == NaN) // false
+
+  isNaN('10') // false 隐性转换为数值10
+  isNaN(true) // false 隐性转换为数值1
+  ```
+
+- Number() 转换
+
+  ```js
+  Number(true) // 1
+  Number(false) // 0
+  Number(null) // 0
+  Number(undefined) // NaN
+  Number('') // 0
+  Number('hello') // NaN
+  Number('007') // 7
+  Number('hello007') // NaN
+  ```
+
+- parseInt() 和 parseFloat() 转换
+
+  ```js
+  parseInt(true) // NaN
+  parseInt(null) // NaN
+  parseInt(undefined) // NaN
+  parseInt('') // NaN
+  parseInt('007hello888') // 7
+  parseInt('007.88') // 7
+  parseInt('070') // 70
+  parseInt(070) // 56 (八进制)
+  parseInt('070', 8) // 56 (八进制)
+  parseInt('0xf') // 15 (十六进制)
+  parseInt(0xf) // 15 (十六进制)
+  parseInt('af', 16) // 15 (十六进制)
+
+  parseFloat('007.88hello') // 7.88
+  parseFloat('007.88.99') // 7.88
+  parseFloat('0xf') // 0 (只解析十进制)
+  ```
+
+String
+
+- toString() 和 String()
+
+  ```js
+  var test
+  var obj = null
+  var boo = true
+  var num = 10
+
+  test.toString() // 报错
+  obj.toString() // 报错
+  boo.toString() // 'true'
+  num.toString() // '10'
+  num.toString(8) // '12' (根据八进制转换)
+  num.toString(16) // 'a' (根据十六进制转换)
+
+  String(test) // 'undefined'
+  String(obj) // 'null'
+  ```
