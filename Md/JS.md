@@ -1,14 +1,36 @@
 <h1 align="center">JS</h1>
 
+- [\<script\>](#script)
+  - [概念](#概念)
+  - [属性](#属性)
+- [语法](#语法)
+  - [标识符](#标识符)
+  - [注释](#注释)
+- [数据类型](#数据类型)
+  - [数据检测](#数据检测)
+  - [Undefined / Null](#undefined--null)
+  - [Boolean](#boolean)
+  - [Number](#number)
+  - [String](#string)
+- [引用类型](#引用类型)
+  - [Object](#object)
+  - [Array](#array)
+  - [Date](#date)
+  - [RegExp](#regexp)
+  - [Boolean, Number, String](#boolean-number-string)
+  - [Global, Math](#global-math)
+- [函数](#函数)
+  - [arguments](#arguments)
+
 ## \<script\>
 
-概念
+### 概念
 
 - 从上而下顺序解析
 - 后一组 script 标签可使用前一组的内容，反之不行
 - 解析 script 标签内容会阻塞 DOM 加载及渲染
 
-属性
+### 属性
 
 - async：异步加载，只对外部脚本有效，不同异步脚本标签无法保证顺序解析
 - defer：DOM 加载并渲染后执行，只对外部脚本有效
@@ -18,13 +40,13 @@
 
 ## 语法
 
-标识符
+### 标识符
 
 - 首字符：字母 或 \_ 或 \$（不能数字）
 - 其它字符：字母 或 \_ 或 \$ 或 数字
 - 大小写敏感
 
-注释
+### 注释
 
 - 普通注释
 
@@ -72,7 +94,7 @@
 
 ## 数据类型
 
-数据检测
+### 数据检测
 
 - typeof
 
@@ -88,7 +110,22 @@
   typeof val3 // "function"
   ```
 
-Undefined / Null
+- instanceof
+
+  ```js
+  var arr = [1, 2, 3]
+  var fn = function () {}
+  var obj = null
+  var reg = /abc/g
+
+  console.log(arr instanceof Array) // true
+  console.log(fn instanceof Function) // true
+  console.log(fn instanceof Object) // true
+  console.log(obj instanceof Object) // false
+  console.log(reg instanceof RegExp) // true
+  ```
+
+### Undefined / Null
 
 - undefined 派生自 null
 
@@ -97,7 +134,7 @@ Undefined / Null
   undefined === null // false
   ```
 
-Boolean
+### Boolean
 
 - 转换为 true
   - 非零数字
@@ -109,7 +146,7 @@ Boolean
   - null
   - undefined
 
-Number
+### Number
 
 - +0 和 -0 相等
 
@@ -166,7 +203,7 @@ Number
   parseFloat('0xf') // 0 (只解析十进制)
   ```
 
-String
+### String
 
 - toString() 和 String()
 
@@ -185,4 +222,47 @@ String
 
   String(test) // 'undefined'
   String(obj) // 'null'
+  ```
+
+## 引用类型
+
+### Object
+
+- 对象字面量定义对象时，不会调用 Object 构造函数
+
+### Array
+
+### Date
+
+### RegExp
+
+### Boolean, Number, String
+
+### Global, Math
+
+## 函数
+
+### arguments
+
+- 参数对象（伪数组）：可以索引访问成员，有 length，没有 Array 属性和方法
+
+- arguments 的长度取决于调用函数时传入的参数数量，而非定义函数时的命名参数
+
+- arguments 成员改变会反应到对应命名参数，前提是该命名参数在 arguments 长度范围内
+
+  ```js
+  function getSum(num1, num2, num3) {
+    arguments[2] = 90
+    let sum1 = num1 + num2 + num3
+    num3 = 1
+    let sum2 = num1 + num2 + num3
+    console.log('sum1: ' + sum1)
+    console.log('sum2: ' + sum2)
+  }
+  getSum(1, 1)
+  // 'sum1: NaN'
+  // 'sum2: 3'
+  getSum(1, 1, 1)
+  // 'sum1: 92'
+  // 'sum2: 3'
   ```
