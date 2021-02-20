@@ -10,16 +10,20 @@
   - [数值和布尔值解构赋值](#数值和布尔值解构赋值)
   - [函数参数使用解构赋值](#函数参数使用解构赋值)
   - [解构赋值常见用法](#解构赋值常见用法)
+- [函数扩展](#函数扩展)
+  - [箭头函数](#箭头函数)
 - [Symbol](#symbol)
-  - [概述](#概述)
-  - [用法](#用法)
+  - [Symbol 概述](#symbol-概述)
+  - [Symbol 用法](#symbol-用法)
 - [Set](#set)
-  - [概述](#概述-1)
-  - [实例属性和方法](#实例属性和方法)
-  - [用法](#用法-1)
+  - [Set 概述](#set-概述)
+  - [Set 实例属性和方法](#set-实例属性和方法)
+  - [Set 用法](#set-用法)
 - [Map](#map)
-  - [概述](#概述-2)
-  
+  - [Map 概述](#map-概述)
+  - [Map 实例属性和方法](#map-实例属性和方法)
+  - [Map 数据转换](#map-数据转换)
+
 ## 变量定义
 
 ### let
@@ -60,11 +64,12 @@
   if (true) {
     console.log(str1) // 'hello'
     console.log(str2) // Error 形成封闭作用域后，无法调用父作用域的str，此为死区
-    let str
+    let str2
   }
   ```
 
 - 相同块级作用域内不能重复声明变量
+- let 定义的变量无法用 window 对象调用
 
 ### const
 
@@ -132,7 +137,7 @@
   const { log } = console
   log('hello') // "hello"
 
-  let { str1, str1: str2, str1: str3 } = { str1: 'hey man' ,str2 = 'hi man'}
+  let { str1, str1: str2, str1: str3 } = { str1: 'hey man' ,str2: 'hi man'}
   console.log(str1) // "hey man"
   console.log(str2) // "hey man"
   console.log(str3) // "hey man"
@@ -175,7 +180,7 @@
   console.log(d) // "l"
   console.log(e) // "o"
 
-  let length: len = 'hello'
+  let { length: len } = 'hello'
   console.log(len) // 5
   ```
 
@@ -256,9 +261,44 @@
 - 函数对象参数的默认值
 - 调取模块对象的方法
 
+## 函数扩展
+
+### 箭头函数
+
+- 定义
+  
+  ```js
+  let fn1 = () => {
+    console.log('hello world')
+  }
+
+  fn1() // "hello world"
+  ```
+
+- 箭头函数没有 argument 属性，也没有 caller 和 callee 属性
+- 箭头函数内的 this 指向函数定义时所在对象，而非调用时所在对象
+- 箭头函数没有 prototype 属性，不可以用作构造函数
+
+  ```js
+  let People = () => {
+    this.name = 'bob'
+  }
+
+  console.log(Fn.prototype) // undefined
+  let people1 = new People() // Error: People is not a constuctor
+  ```
+
+- 箭头函数有 constructor 属性，向上存在原型链
+
+  ```js
+  let fn2 = () => { console.log('hi') }
+
+  console.log(fn2.contructor) // Function()
+  ```
+
 ## Symbol
 
-### 概述
+### Symbol 概述
 
 - 定义：第七种原始数据类型，值具有唯一性
 
@@ -281,7 +321,7 @@
   console.log(sym1.description) // "test"
   ```
 
-### 用法
+### Symbol 用法
 
 - 作为对象属性名
 
@@ -296,7 +336,7 @@
 
 ## Set
 
-### 概述
+### Set 概述
 
 - 定义：一种类似数组的数据结构，成员的值唯一
 
@@ -324,7 +364,7 @@
   console.log(set2) // Set(3) {NaN, {}, {}}
   ```
 
-### 实例属性和方法
+### Set 实例属性和方法
 
 - size 属性：返回实例的成员数
 
@@ -338,17 +378,20 @@
   ```js
   let set1 = new Set([1, 2, 3, 4])
 
-  set1.add(5) // 添加成员
+  // 添加成员
+  set1.add(5)
   console.log([...set1]) // [1, 2, 3, 4, 5]
 
-  set1.delete(2) // 删除成员
+  // 删除成员
+  set1.delete(2)
   console.log([...set1]) // [1, 3, 4, 5]
 
   // 查找成员
   console.log(set1.has(3)) // true
   console.log(set1.has(2)) // false
 
-  set1.clear() // 清空成员
+  // 清空成员
+  set1.clear()
   console.log(set1) // Set(0) {}
   ```
 
@@ -357,13 +400,12 @@
   ```js
   let set1 = new Set([1, 2, 3])
 
-  // keys(), values(), entries() 方法返回遍历器对象
-  // keys()和values() 返回相同
   console.log(typeof set1.keys()) // "object"
   console.log(typeof set1.values()) // "object"
   console.log(typeof set1.entries()) // "object"
 
-  // 使用for...of可遍历返回的遍历器对象
+  // 使用 for...of 可遍历返回的遍历器对象
+  // Set 结构的 keys() 和 values() 返回相同
   for (let item of set1.keys()) {
     console.log(item)
   }
@@ -378,7 +420,7 @@
   // [2, 2]
   // [3, 3]
 
-  // 可以使用for...of直接遍历Set数据
+  // 直接遍历 Set 数据，等同于 set.values()
   for (let item of set1) {
     console.log(item)
   }
@@ -386,8 +428,8 @@
   // 2
   // 3
 
-  // forEach()方法遍历
-  set1.forEach((key, value) => {
+  // forEach() 方法遍历，注意参数顺序
+  set1.forEach((value, key) => {
     console.log(`${key}:${value}`)
   })
   // 1:1
@@ -395,7 +437,7 @@
   // 3:3
   ```
 
-### 用法
+### Set 用法
 
 - 数组或字符串去重
 
@@ -428,11 +470,176 @@
 
 ## Map
 
-### 概述
+### Map 概述
 
 - 定义：一种类似对象的数据结构，键值对的键可以是各种类型的值
 
   ```js
   let map1 = new Map()
   console.log(typeof map1) // "object"
+
+  let obj = { person: 'Bob' }
+  map1.set(obj, 'teacher')
+  map1.set(obj, 'student')
+  map1.get(obj) // "student"
+  map1.get(Obj) // undefined
+  ```
+
+- 引用类型的键保存的是指针
+
+  ```js
+  let map2 = new Map()
+  map2.set(['hi'], 123)
+  map2.get(['hi']) // undefined
+
+  map2.set(null, 111)
+  map2.set(undefined, 222)
+  map2.get(null) // 111
+
+  map2.set(NaN, 333)
+  map2.get(NaN) // 333
+  ```
+
+- Map()构造函数传参初始化，参数需有 iterable 接口，且参数的每个成员为双元素数组
+
+  ```js
+  let obj1 = {
+    person1: 'bob',
+  }
+  let obj2 = {
+    person2: 'mike',
+  }
+  let map3 = new Map([
+    [obj1, teacher],
+    [obj2, student],
+  ])
+
+  map3.get(obj1) // "teacher"
+  map3.get(obj2) // "student"
+
+  obj1 = 'hello'
+  map3.get(obj1) // undefined
+  obj2.person2 = 'jack'
+  map3.get(obj2) // "student"
+  ```
+
+### Map 实例属性和方法
+
+- size 属性：返回实例的成员数
+
+  ```js
+  let map1 = new Map()
+  map1.set('name', 'bob')
+  map1.set('job', 'student')
+  console.log(map1.size) // 2
+  ```
+
+- 操作键值方法
+
+  ```js
+  let map1 = new Map()
+
+  // 设置键值
+  map1.set('person', 'bob').set(undefined, 'error')
+
+  // 获取对应键的值
+  map1.get(undefined) // 'error'
+
+  // 查找是否包含键
+  map1.has(null) // false
+  map1.has(undefined) // true
+
+  // 删除键
+  map1.delete(undefined) // true
+  map1.delete('name') // false
+
+  // 清空键值
+  map1.clear()
+  console.log(map1.size) // 0
+  ```
+
+- 遍历键值方法
+
+  ```js
+  let map1 = new Map([
+    [{ name: 'mike' }, 'teacher'],
+    [{ name: 'bob' }, 'student'],
+  ])
+
+  for (let key of map1.keys()) {
+    console.log(key)
+  }
+  // { name: 'mike' }
+  // { name: 'bob' }
+
+  for (let value of map1.values()) {
+    console.log(value)
+  }
+  // "teacher"
+  // "student"
+
+  for (let item of map1.entries()) {
+    console.log(item)
+  }
+  // [{ name: 'mike' }, 'teacher']
+  // [{ name: 'bob' }, 'student']
+
+  for (let [key, value] of map1.entries()) {
+    console.log(key)
+    console.log(value)
+  }
+  // { name: 'mike' }
+  // 'teacher'
+  // { name: 'bob' }
+  // 'student'
+
+  // 直接遍历 Map 数据，等同于 map.entries()
+  for (let [key, value] of map1) {
+    console.log(key, value)
+  }
+  // { name: 'mike' } 'teacher'
+  // { name: 'bob' } 'student'
+
+  // forEach() 方法遍历，注意参数顺序
+  map1.forEach((value, key, map) => {
+    console.log(key, value)
+    console.log(map)
+  })
+  // { name: 'mike' } teacher
+  // Map(2) { { name: 'mike' } => teacher, { name: 'bob' } => student }
+  // { name: 'bob' } student
+  // Map(2) { { name: 'mike' } => teacher, { name: 'bob' } => student }
+  ```
+
+### Map 数据转换
+
+- 与数组互转
+
+  ```js
+  let map1 = new Map([
+    ['bob', 18], 
+    ['mike', 20]
+  ])
+  let map2 = new Map(
+    [...map1].filter((key, value) => {
+      return value === 18
+    })
+  )
+  console.log(map2) // Map(1) { 'bob' => 18 }
+  ```
+
+- 与对象互转，键必须为字符串
+
+  ```js
+  let map1 = new Map([
+    ['bob', 18],
+    ['mike', 20]
+  ])
+
+  let obj = {}
+  for (let [key, value] of map1) {
+    obj[key] = value
+  }
+
+  let map2 = new Map(Object.entries(obj))
   ```

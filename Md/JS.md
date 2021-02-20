@@ -20,7 +20,9 @@
   - [Boolean, Number, String](#boolean-number-string)
   - [Global, Math](#global-math)
 - [函数](#函数)
+  - [this](#this)
   - [arguments](#arguments)
+  - [call, apply, bind](#call-apply-bind)
 
 ## \<script\>
 
@@ -242,12 +244,17 @@
 
 ## 函数
 
+### this
+
+- 在普通模式下，函数执行上下文（this）默认指向 window
+- 在普通模式下，将 this 指向 undefined 和 null 时，一样会指向 window
+- 在严格模式下，this 默认指向 undefined
+- 在严格模式下，将 this 指向 undefined 和 null 时，则 this 对应改变
+
 ### arguments
 
 - 参数对象（伪数组）：可以索引访问成员，有 length，没有 Array 属性和方法
-
 - arguments 的长度取决于调用函数时传入的参数数量，而非定义函数时的命名参数
-
 - arguments 成员改变会反应到对应命名参数，前提是该命名参数在 arguments 长度范围内
 
   ```js
@@ -266,3 +273,9 @@
   // 'sum1: 92'
   // 'sum2: 3'
   ```
+
+### call, apply, bind
+
+- 都是修改函数执行时的 this 指向
+- call 和 bind 传入逐个参数，apply 传入参数数组
+- call 和 apply 改变后执行，bind 改变后不执行但返回改变后的函数
