@@ -236,6 +236,85 @@
 ### Array
 
 - 数组字面量定义数组时，不会调用 Array 构造函数
+- Array对象的方法
+  ```js
+  // 判断是否是数组，返回布尔值
+  Array.isArray([]) // true
+
+  // 将一个伪数组或可迭代对象浅拷贝为一个数组，返回新数组
+  Array.from('hello') // ['h', 'e', 'l', 'l', 'o']
+  Array.from([1, 2, 3], x => x * 2) // [2, 4, 6]
+
+  // 根据参数创建一个新数组，返回新数组
+  Array.of('x', 1, 2) // ['x', 1, 2]
+  ```
+- Array实例对象的方法
+  ```js
+  // .concat(arr1, arr2, ...)
+  // 将一个数组和多个数组合并，返回新数组，原数组不变
+  [1, 1].concat([2, 2], [1, 1]) // [1, 1, 2, 2, 1, 1]
+
+  // .copyWithin(target[, start = 0[, end = this.length]])
+  // 将 start 到 end 索引之间的成员复制到 target 索引位置并覆盖原成员
+  // 返回新数组，原数组改变
+  [1, 2, 3, 4, 5].copyWithin(1, 3, 4) // [1, 3, 3, 4, 5]
+
+  // .fill(element[, start = 0[, end = this.length]])
+  // 将 element 填充到 start 到 end 索引之间的成员并覆盖
+  // 返回新数组，原数组改变
+  [1, 2, 3].fill('x', 1) // [1, 'x', 'x']
+
+  // .forEach(callbcak(element[, index[, array]]))
+  // 给所有成员执行一次函数，原数组不变
+  [1, 2, 3].forEach(ele => ele > 2? console.log(ele): 0) // 3
+
+  // .map(callback(element[, index[, array]]))
+  // 给所有成员执行一次函数，返回由每次函数返回值组成的新数组，原数组不变
+  // 函数无返回值时返回由 undefined 组成的等长新数组
+  [1, 2, 3].map(ele => ele * 2) // [2, 4, 6]
+
+  // .every(callback(element[, index[, array]]))
+  // 测试所有成员是否都符合函数条件，返回布尔值，原数组不变
+  [1, 2, 3].every(ele => ele < 8) // true
+
+  // .filter(callback(element[, index[, array]]))
+  // 测试所有成员是否符合函数条件，返回由符合条件成员组成的新数组，原数组不变
+  // 都不符合时返回空数组 []
+  [1, 2, 3, 4, 5].filter(ele => ele < 4) // [1, 2, 3]
+
+  // .find(callback(element[, index[, array]]))
+  // 逐个测试成员是否符合函数条件，返回第一个符合条件的成员，原数组不变
+  // 都不符合时返回 undefined
+  [1, 2, 3, 4, 5].find(ele => ele > 3) // 4
+
+  // .findIndex(callback(element[, index[, array]]))
+  // 逐个测试成员是否符合函数条件，返回第一个符合条件的成员索引，原数组不变
+  // 都不符合时返回 -1
+  [1, 2, 3, 4, 5].findIndex(ele => ele > 3) // 3
+
+  // .flat([depth = 1])
+  // 根据 depth 值将多维度数组扁平化
+  [1, 2, [3, [4, 5]]].flat() // [1, 2, 3, [4, 5]]
+  [1, 2, [3, [4, 5]]].flat(2) // [1, 2, 3, 4, 5]
+
+  // .flatMap(callback(element[, index[, array]]))
+  // 对原数组执行 .map()，再执行 .flat(1)，原数组不变
+  [1, 2].flatMap(ele => [ele, ele * 10]) // [1, 10, 2, 20]
+
+  // .entries()
+  // 返回数组各个键值对构成的迭代器对象
+  ['a', 'b', 'c'].entries() // Array Iterator
+
+  // .keys()
+  // 返回数组各个键构成的迭代器对象
+  ['a', 'b', 'c'].keys() // Array Iterator
+
+  // .values()
+  // 返回数组各个值构成的迭代器对象
+  ['a', 'b', 'c'].values() // Array Iterator
+
+
+  ```
 
 ### Date
 
