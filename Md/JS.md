@@ -8,7 +8,7 @@
   - [注释](#注释)
 - [数据类型](#数据类型)
   - [数据检测](#数据检测)
-  - [Undefined / Null](#undefined--null)
+  - [Undefined/Null](#undefinednull)
   - [Boolean](#boolean)
   - [Number](#number)
   - [String](#string)
@@ -128,7 +128,7 @@
   console.log(reg instanceof RegExp) // true
   ```
 
-### Undefined / Null
+### Undefined/Null
 
 - undefined 派生自 null
 
@@ -253,16 +253,30 @@
   // .concat(arr1, arr2, ...)
   // 将一个数组和多个数组合并，返回新数组，原数组不变
   [1, 1].concat([2, 2], [1, 1]) // [1, 1, 2, 2, 1, 1]
+    
+  // .slice(start = 0, end = this.length)
+  // 将数组从 start 到 end 索引之间的成员截取，返回截取的新数组，原数组不变
+  [1, 2, 3, 4, 5].slice(1, 4) // [2, 3, 4]
 
   // .copyWithin(target[, start = 0[, end = this.length]])
   // 将 start 到 end 索引之间的成员复制到 target 索引位置并覆盖原成员
   // 返回新数组，原数组改变
-  [1, 2, 3, 4, 5].copyWithin(1, 3, 4) // [1, 3, 3, 4, 5]
+  [1, 2, 3, 4, 5].copyWithin(1, 3, 4) // [1, 4, 3, 4, 5]
 
   // .fill(element[, start = 0[, end = this.length]])
   // 将 element 填充到 start 到 end 索引之间的成员并覆盖
   // 返回新数组，原数组改变
   [1, 2, 3].fill('x', 1) // [1, 'x', 'x']
+  
+  // .reverse()
+  // 将数组全部颠倒，返回新数组，原数组改变
+  [1, 2, 3, 4].reverse() // [4, 3, 2, 1]
+
+  // .splice(start[, deleteCount[, element1, element, ...]])
+  // 数组从 start 索引位置开始删除 deleteCount 个成员并在该位置添加新成员
+  // 返回被删除成员组成的数组，无删除则返回空数组，原数组改变
+  [1, 2, 3, 4, 5].splice(1, 2, 'a') // [2, 3]
+  // 原数组变为：[1, 'a', 4, 5]
 
   // .forEach(callbcak(element[, index[, array]]))
   // 给所有成员执行一次函数，原数组不变
@@ -276,6 +290,11 @@
   // .every(callback(element[, index[, array]]))
   // 测试所有成员是否都符合函数条件，返回布尔值，原数组不变
   [1, 2, 3].every(ele => ele < 8) // true
+
+  // .some(callback(element[, index[, array]]))
+  // 测试所有成员是否至少有一个符合函数条件，返回布尔值，原数组不变
+  // 空数组测试返回 false
+  [1, 2, 3].some(ele => ele === 2) // true
 
   // .filter(callback(element[, index[, array]]))
   // 测试所有成员是否符合函数条件，返回由符合条件成员组成的新数组，原数组不变
@@ -292,14 +311,65 @@
   // 都不符合时返回 -1
   [1, 2, 3, 4, 5].findIndex(ele => ele > 3) // 3
 
+  // .reduce(callback(accumulator, element[, index[, array]])[,init])
+  // 将数组成员逐个经过函数处理，上个函数结果作为下个函数累计器，返回最终结果
+  // init 值传入时，该值作为首个函数的 accumulator，
+  // init 值为空时，数组首个成员代替作为首个函数的 accumulator，不作为 element
+  // 空数组不传 init 值则报错，原数组不变
+  [1, 2, 3].reduce((acc, ele) => acc + ele * 2) // 11
+  [1, 2, 3].reduce((acc, ele) => acc + ele * 2, 0) // 12
+
+  // .reduceRight()
+  // 语法同 .reduce，执行顺序改为数组从后向前
+  [1, 2, 3].reduceRight((acc, ele) => acc + ele * 2) // 9
+  [1, 2, 3].reduceRight((acc, ele) => acc + ele * 2, 0) // 12
+
   // .flat([depth = 1])
-  // 根据 depth 值将多维度数组扁平化
+  // 根据 depth 值将多维度数组扁平化，返回新数组，原数组不变
   [1, 2, [3, [4, 5]]].flat() // [1, 2, 3, [4, 5]]
   [1, 2, [3, [4, 5]]].flat(2) // [1, 2, 3, 4, 5]
 
   // .flatMap(callback(element[, index[, array]]))
-  // 对原数组执行 .map()，再执行 .flat(1)，原数组不变
+  // 对原数组执行 .map()，再执行 .flat(1)，返回新数组，原数组不变
   [1, 2].flatMap(ele => [ele, ele * 10]) // [1, 10, 2, 20]
+
+  // .includes(value[, start = 0])
+  // 从 start 索引开始查找数组是否包含 value 值，返回布尔值
+  [1, 2, 3, 2, 5].includes(2, 3) // true
+
+  // .indexOf(element[, start = 0])
+  // 从 start 索引开始往后查找数组是否存在 element 成员，返回成员对应索引
+  // 查找到第一个就返回，成员不存在则返回 -1
+  [1, 2, 3, 4, 5].indexOf(4, 3) // 3
+
+  // .lastIndexOf(element[, start = this.length - 1])
+  // 从 start 索引开始往前查找数组是否存在 element 成员，返回成员对应索引
+  // 查找到第一个就返回，成员不存在则返回 -1
+  [1, 2, 3, 2, 4, 2].lastIndexOf(2, 4) // 3
+
+  // .join([separator])
+  // 将数组所有成员用 separator 连接成字符串，返回新字符串，原数组不变
+  // separator 不传则用逗号 , 连接
+  ['a', 'b', 'c'].join() // "a,b,c"
+  ['a', 'b', 'c'].join('') // "abc"
+
+  // .push(element1, element2, ...)
+  // 在数组尾部添加新成员，返回新数组的长度，原数组改变
+  [1, 11].push(2, 22) // 4
+
+  // .pop()
+  // 将数组最后一个成员删除，返回删除的成员，原数组改变
+  // 数组为空时，返回 undefined
+  [1, 11, 2, 22].pop() // 22
+  
+  // .unshift(element1, element2, ...)
+  // 在数组头部添加新成员，返回新数组的长度，原数组改变
+  [2, 22].unshift(1, 11) // 4
+
+  // .shift()
+  // 将数组第一个成员删除，返回删除的成员，原数组改变
+  // 数组为空时，返回 undefined
+  [1, 11, 2, 22].shift() // 1
 
   // .entries()
   // 返回数组各个键值对构成的迭代器对象
@@ -313,7 +383,14 @@
   // 返回数组各个值构成的迭代器对象
   ['a', 'b', 'c'].values() // Array Iterator
 
+  // .sort([compareFunction(element1, element2)])
+  // 对数组排序，原数组改变
+  // 函数处理返回值小于0时，两成员位置不变，返回值大于0时，两成员位置互换
+  [1, 3, 2, 4].sort((ele1, ele2) => ele2 - ele1) // [4, 3, 2, 1]
 
+  // .toString()
+  // 将数组转换成字符串，成员间用逗号连接，原数组不变
+  [1, 2, 3, 4].toString() // "1,2,3,4"
   ```
 
 ### Date
