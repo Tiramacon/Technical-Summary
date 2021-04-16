@@ -232,19 +232,33 @@
 ### Object
 
 - 对象字面量定义对象时，不会调用 Object 构造函数
+- Object 对象的方法
+  ```js
+  // Object.assign(target, source1, source2, ...)
+  // 将各个源对象的全部属性复制并覆盖到目标对象的属性中，返回目标对象
+  // 后一个源对象相同属性会覆盖前一个的，源对象不变，目标对象改变
+  Object.assign({a: 1}, {a: 11, b: 22}, {a: 0}) // {a: 0, b: 22}
+
+  // Object.create(protoObject)
+  // 创建一个原型为 protoObject 的对象
+  ```
 
 ### Array
 
 - 数组字面量定义数组时，不会调用 Array 构造函数
-- Array对象的方法
+- Array 对象的方法
   ```js
-  // 判断是否是数组，返回布尔值
+  // Array.isArray(value)
+  // 判断 value 是否是数组，返回布尔值
   Array.isArray([]) // true
 
+  // Array.from(arrayLike[, mapCallback])
   // 将一个伪数组或可迭代对象浅拷贝为一个数组，返回新数组
+  // 若传入回调函数，则成员经过函数处理再拷贝
   Array.from('hello') // ['h', 'e', 'l', 'l', 'o']
   Array.from([1, 2, 3], x => x * 2) // [2, 4, 6]
 
+  // Array.of(element1, element2, ...)
   // 根据参数创建一个新数组，返回新数组
   Array.of('x', 1, 2) // ['x', 1, 2]
   ```
