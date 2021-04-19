@@ -240,7 +240,37 @@
   Object.assign({a: 1}, {a: 11, b: 22}, {a: 0}) // {a: 0, b: 22}
 
   // Object.create(protoObject)
-  // 创建一个原型为 protoObject 的对象
+  // 创建一个原型为 protoObject 的对象，返回新对象
+  const obj = Object.create({job: 'programmer'})
+  console.log(obj) // {}
+  console.log(obj.__proto__) // {job: "programmer"}
+
+  // Object.defineProperty(obj, prop, option)
+  // 为对象定义或修改一个属性，原对象改变，返回该对象
+  const obj = {name: 'bob'}
+  Object.defineProperty(obj, job, {
+    value: 'programmer',
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    get() { return anotherValue },
+    set(newValue) { value = newValue }
+  })
+
+  // Object.defineProperties(obj, {prop1: option1, prop2: option2})
+  // 为对象定义或修改多个属性，原对象改变，返回改对象
+  const obj = {name: 'bob'}
+  Object.defineProperties(obj, {
+    job: {
+      value: 'programmer',
+      writable: true
+    },
+    age: {
+      value: 22,
+      enumerable: true
+    }
+  })
+  
   ```
 
 ### Array
