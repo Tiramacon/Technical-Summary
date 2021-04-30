@@ -234,6 +234,13 @@
 - 对象字面量定义对象时，不会调用 Object 构造函数
 - Object 对象的方法
   ```js
+  // Object.is(value1, value2)
+  // 判断 value1 和 value2 是否为同一个值，返回布尔值
+  Object.is(undefined, null) // false
+  Object.is(0, +0) // true
+  Object.is(0, -0) // false
+  Object.is(NaN, NaN) // true
+
   // Object.assign(target, source1, source2, ...)
   // 将各个源对象的全部属性复制并覆盖到目标对象的属性中，返回目标对象
   // 后一个源对象相同属性会覆盖前一个的，源对象不变，目标对象改变
@@ -246,19 +253,19 @@
   console.log(obj.__proto__) // {job: "programmer"}
 
   // Object.defineProperty(obj, prop, option)
-  // 为对象定义或修改一个属性，原对象改变，返回该对象
+  // 为对象定义或修改一个属性，返回该对象，原对象改变
   const obj = {name: 'bob'}
   Object.defineProperty(obj, job, {
     value: 'programmer',
     configurable: true,
     enumerable: true,
     writable: true,
-    get() { return anotherValue },
-    set(newValue) { value = newValue }
+    // get() { return anotherValue },
+    // set(newValue) { value = newValue }
   })
 
   // Object.defineProperties(obj, {prop1: option1, prop2: option2})
-  // 为对象定义或修改多个属性，原对象改变，返回改对象
+  // 为对象定义或修改多个属性，返回该对象，原对象改变
   const obj = {name: 'bob'}
   Object.defineProperties(obj, {
     job: {
@@ -270,6 +277,72 @@
       enumerable: true
     }
   })
+
+  // Object.entries(obj)
+  // 返回对象各个键值对构成的二维数组
+  Object.entries({
+    name: 'bob',
+    age: 18
+  }) // [["name", "bob"], ["age", 18]]
+
+  // Object.fromEntries(iterable)
+  // Object.entries() 的逆操作，返回 iterable 构建的新对象
+  Object.fromEntries([
+    ['name', 'bob'],
+    ['age', 18]
+  ]) // {name: "bob", age: 18}
+
+  // Object.keys(obj)
+  // 返回对象各个键构成的数组
+  Object.keys({name: 'bob', age: 18}) // ["name", "age"]
+
+  // Object.values(obj)
+  // 返回对象各个值构成的数组
+  Object.values({name: 'bob', age: 18}) // ["bob", 18]
+
+  // Object.freeze(obj)
+  // 冻结对象，使属性均不能增删改，返回冻结后的对象，原对象改变
+  const obj = {name: 'bob'}
+  Object.freeze(obj) // {name: "bob"}
+  obj.age = 18
+  delete obj.name
+  console.log(obj) // {name: "bob"}
+
+  // Object.isFrozen(obj)
+  // 判断一个对象是否被冻结，返回布尔值
+  const obj = {name: 'bob'}
+  Object.freeze(obj)
+  Object.isFrozen(obj) // true
+
+  // Object.preventExtensions(obj)
+  // 使对象属性不能增只能删改，返回原对象，原对象改变
+  const obj = {name: 'bob', age: 18}
+  Object.preventExtensions(obj) // {name: "bob", age: 18}
+  obj.name = 'mike'
+  obj.job = 'student'
+  delete obj.age
+  console.log(obj) // {name: "mike"}
+
+  // Object.isExtensible(obj)
+  // 判断一个对象是否可以扩展，返回布尔值
+  const obj = {name: 'bob'}
+  Object.preventExtensions(obj)
+  Object.isExtensible(obj) // false
+
+  // Object.seal(obj)
+  // 封闭对象，使属性不能增删，不能修改属性描述符，返回原对象，原对象改变
+  const obj = {name: 'bob', age: 18}
+  Object.seal(obj)
+  obj.job = 'student'
+  obj.name = 'mike'
+  delete obj.age
+  console.log(obj) // {name: "mike", age: 18}
+
+  // Object.isSealed(obj)
+  // 判断一个对象是否被封闭，返回布尔值
+  const obj = {name: 'bob'}
+  Object.seal(obj)
+  Object.isSealed(obj) // true
   
   ```
 

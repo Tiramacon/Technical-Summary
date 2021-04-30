@@ -1,5 +1,8 @@
 <h1 align="center">Git</h1>
 
+- [配置 github ssh key](#配置-github-ssh-key)
+- [解决 ssh: connect to host github com port 22: timed out](#解决-ssh-connect-to-host-github-com-port-22-timed-out)
+
 ## 配置 github ssh key
 
 使用 Git Bash 生成 ssh key
@@ -25,7 +28,7 @@
 - 在 C:/users/usersName/.ssh/目录下，复制 id_rsa.pub 文件的内容
 - 在 github 设置页面的 ssh key 栏点击 new ssh key 粘贴内容
 
-## 解决：ssh: connect to host github.com port 22: timed out
+## 解决 ssh: connect to host github com port 22: timed out
 
 使用 Git Bash 检查 ssh 连接
 
