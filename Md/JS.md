@@ -342,7 +342,10 @@
   // 判断一个对象是否被封闭，返回布尔值
   const obj = {name: 'bob'}
   Object.seal(obj)
-  Object.isSealed(obj) // true
+  Object.isSealed(obj) // true 
+  ```
+- Object 实例对象的方法
+  ```js
   
   ```
 
